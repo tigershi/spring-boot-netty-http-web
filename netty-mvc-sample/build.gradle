@@ -1,0 +1,41 @@
+buildscript {
+	ext {
+		springBootVersion = '2.5.12'
+	}
+	repositories {
+		mavenLocal()
+        mavenCentral()
+        maven { url 'https://repo.spring.io/libs-milestone' }
+        jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'war'
+
+description = 'netty-mvc-rest sample'
+archivesBaseName = 'netty-mvc-sample'
+
+
+sourceSets {
+  test {
+    java.srcDirs = ['src/test/java']
+    java.outputDir = file('build/classes/test')
+    output.resourcesDir = file('build/classes/test')
+    resources.srcDirs = ['src/test/resources']
+  }
+}
+
+
+
+dependencies {
+    implementation project(":springboot-netty-mvc-rest")
+    implementation project(":netty-mvc-core")
+    implementation('org.springframework.boot:spring-boot-autoconfigure')
+    implementation ('org.springframework.boot:spring-boot-starter-log4j2')
+}

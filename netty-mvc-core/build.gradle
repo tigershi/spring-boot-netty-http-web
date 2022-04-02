@@ -1,0 +1,32 @@
+
+apply plugin: 'java-library'
+apply plugin: 'eclipse'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+ // default encoding is utf-8
+[compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+
+repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://repo.spring.io/libs-milestone' }
+        jcenter()
+}
+
+// jar‘s name
+archivesBaseName = 'netty-mvc-core'
+version='1.0.0'
+
+
+
+dependencies {
+    implementation ("io.netty:netty-all:$nettyVersion")
+    implementation("com.alibaba:fastjson:$fasterjsonVersion")
+    // https://mvnrepository.com/artifact/org.springframework/spring-core
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.18'
+
+    implementation("org.slf4j:slf4j-api:1.7.25")
+    
+ }
