@@ -34,8 +34,7 @@ sourceSets {
 
 
 dependencies {
-    implementation project(":springboot-netty-mvc-rest")
-    implementation project(":netty-mvc-core")
+    implementation fileTree(dir: 'lib', include: [ '*.jar'])
     implementation ("io.netty:netty-all:$nettyVersion")
     implementation("com.alibaba:fastjson:$fasterjsonVersion")
     implementation("org.slf4j:slf4j-api:$slf4jApi")
