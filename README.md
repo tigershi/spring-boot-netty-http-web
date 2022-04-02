@@ -1,7 +1,9 @@
 # netty-http-server
-本项目是的功能是用netty4.x 实现的一个mvc框架，实现与spring-boot无缝集成，实现了返回参数为Json格式及interceptor， listener， exceptionHandler功能。 
-具体的如何应用请参考
-netty-mvc-sample项目
+
+本项目是基于netty4.x 实现的一个httpserver 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，实现了返回参数为Json格式及interceptor， listener， exceptionHandler功能。 
+
+具体的如何应用请参考netty-mvc-sample项目
+
 #### 优点
 -------------------------------------------------------------------------------------------
 

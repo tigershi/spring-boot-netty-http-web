@@ -1,6 +1,6 @@
 
 // jar‘s name
-archivesBaseName = 'springboot-netty-mvc-rest'
+archivesBaseName = 'netty-mvc-springboot'
 version='1.0.0'
 
 
