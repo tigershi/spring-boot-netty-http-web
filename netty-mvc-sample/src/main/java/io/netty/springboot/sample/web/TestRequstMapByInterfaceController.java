@@ -1,4 +1,4 @@
-package com.netyards.vip.web;
+package io.netty.springboot.sample.web;
 
 import io.netty.mvc.annotation.component.NettyRestController;
 

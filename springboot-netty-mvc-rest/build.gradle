@@ -7,9 +7,10 @@ version='1.0.0'
 
 dependencies {
     implementation project(":netty-mvc-core")
-    api ("io.netty:netty-all:$nettyVersion")
-    api("com.alibaba:fastjson:$fasterjsonVersion")
-    api("org.slf4j:slf4j-api:$slf4jApi")
+    compileOnly ("io.netty:netty-all:$nettyVersion")
+    compileOnly("com.alibaba:fastjson:$fasterjsonVersion")
+    compileOnly("org.slf4j:slf4j-api:$slf4jApi")
     compileOnly("org.springframework.boot:spring-boot:$springBoot")
     
  }
+ 

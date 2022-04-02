@@ -1,4 +1,4 @@
-package com.netyards.vip.web.exception;
+package io.netty.springboot.sample.web.exception;
 /**
  * 
  * @author shihu

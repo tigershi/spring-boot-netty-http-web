@@ -1,8 +1,5 @@
-package com.netyards.vip.web;
+package io.netty.springboot.sample.web;
 
-
-import com.netyards.vip.web.exception.TestException;
-import com.netyards.vip.web.exception.TestModelExceptionHandlers;
 
 import io.netty.mvc.annotation.NettyPathVal;
 import io.netty.mvc.annotation.NettyReqParam;
@@ -10,6 +7,8 @@ import io.netty.mvc.annotation.NettyRequestBody;
 import io.netty.mvc.annotation.NettyRequestMapping;
 import io.netty.mvc.annotation.component.NettyRestController;
 import io.netty.mvc.bind.NettyHttpMethods;
+import io.netty.springboot.sample.web.exception.TestException;
+import io.netty.springboot.sample.web.exception.TestModelExceptionHandlers;
 /**
  * 
  * @author shihu

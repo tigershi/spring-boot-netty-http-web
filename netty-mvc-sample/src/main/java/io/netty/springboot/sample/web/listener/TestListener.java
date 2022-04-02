@@ -1,4 +1,4 @@
-package com.netyards.vip.web.listener;
+package io.netty.springboot.sample.web.listener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

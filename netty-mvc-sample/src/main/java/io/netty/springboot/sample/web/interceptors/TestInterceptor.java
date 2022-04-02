@@ -1,4 +1,4 @@
-package com.netyards.vip.web.interceptors;
+package io.netty.springboot.sample.web.interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

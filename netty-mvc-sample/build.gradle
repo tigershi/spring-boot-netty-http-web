@@ -36,6 +36,9 @@ sourceSets {
 dependencies {
     implementation project(":springboot-netty-mvc-rest")
     implementation project(":netty-mvc-core")
+    implementation ("io.netty:netty-all:$nettyVersion")
+    implementation("com.alibaba:fastjson:$fasterjsonVersion")
+    implementation("org.slf4j:slf4j-api:$slf4jApi")
     implementation('org.springframework.boot:spring-boot-autoconfigure')
     implementation ('org.springframework.boot:spring-boot-starter-log4j2')
 }
