@@ -8,18 +8,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import io.netty.mvc.bind.NettyMvcException;
 import io.netty.mvc.config.Constants;
+import io.netty.mvc.config.NettyMvcExceptions;
 import io.netty.mvc.utils.AntPathMatcher;
 
 public class NettyReqUriProp {
 
 	private static AntPathMatcher antPathMatcher  = new AntPathMatcher();
+	//url Str
 	private String urlStr;
+	//is path val url
 	private boolean pathVal;
+	//path map to the invake method and Object
 	private Entry<Method, Object> mapMethod;
-	private final static List<String> prefixPathUrls = new ArrayList<String>();
-	private static int maxIdx;
-	private static int minIdx;
+	
+	//the path value url count number
+	private static int pathValURLCount = 0;
+	//it doesn't have path value url count number
+	private static int SingleUrlCount = 0;
+	// min slash size prefix path's last slash index
+	private static int minSlashIdx = 0;
+	//prefix path slash count that include max slash 
+	private static int maxSlashCount=0;
 	
 	
 	
@@ -38,16 +49,40 @@ public class NettyReqUriProp {
     	
     }
     
-    public static String getPrefixPathUrl(String url) {
-    	for(String prefix : prefixPathUrls) {
-    		if(url.startsWith(prefix)) {
-    			return prefix;
-    		}
-    	}
-		return url;
-    }
     
-    public static synchronized NettyReqUriProp newInstance(String urlStr, boolean pathVal, Entry<Method, Object> mapMethod) {
+   
+    public static String subPrePathCountChar(String strContent, char charStr, int count) {
+		int len = strContent.length()-1;
+		int indx;
+		int numb =0;
+		for(indx = 0; indx <len; indx++){
+			if((strContent.charAt(indx) == charStr) && (++numb == count)) {
+				return strContent.substring(0, indx+1);
+			}
+		}
+		
+		do {
+			len --;
+		}while(strContent.charAt(len) != '/');
+			
+		return strContent.substring(0, (len+1));
+	}
+
+    
+    
+    
+    
+	/*
+	 * public static String getPrefixPathUrl(String url) { for(String prefix :
+	 * prefixPathUrls) { if(url.startsWith(prefix)) { return prefix; } } return url;
+	 * }
+	 */
+    
+    public static synchronized NettyReqUriProp newInstance(String urlStr, boolean pathVal, Entry<Method, Object> mapMethod) throws NettyMvcException {
+    	if(!urlStr.startsWith("/")) {
+    		throw NettyMvcExceptions.URL_SLASH_START_ERR;
+    	}
+    	
     	return new NettyReqUriProp(urlStr, pathVal, mapMethod);
     }
     
@@ -55,26 +90,41 @@ public class NettyReqUriProp {
     	this.urlStr = urlStr;
     	this.pathVal = pathVal;
     	this.mapMethod = mapMethod;
-    	String prefix = prefixPath(urlStr);
-    	if(pathVal && !prefixPathUrls.contains(prefix)) {
-    		prefixPathUrls.add(prefix);
-    		Collections.sort(prefixPathUrls,  new Comparator<String>(){
-
-    			@Override
-    			public int compare(String str1, String str2) {
-    				// TODO Auto-generated method stub
-    				return str1.length()-str2.length();
-    			}
-    			
-    		});
+    	
+    	if(pathVal) {
+    		String prefix = prefixPath(urlStr);
+    		int slashCount = countPrePathSlash(prefix);
+    		if(slashCount > maxSlashCount) {
+    			maxSlashCount = slashCount;
+    		}
+    		int lastslashIdx = prefix.lastIndexOf("/");
+    		if(minSlashIdx == 0 || minSlashIdx>lastslashIdx) {
+    			minSlashIdx= lastslashIdx;
+    		}
     		
-    		minIdx = prefixPathUrls.get(0).length();
-    		maxIdx = prefixPathUrls.get(prefixPathUrls.size()-1).length();
-    		
+    		pathValURLCount++;
+    	}else{
+    		SingleUrlCount++;
     	}
     	
+  
+    	
     }
-	
+
+
+   public static  int countPrePathSlash(String prePath){
+	   int numb =0;
+	   int length = prePath.length();
+	   for(int idx=0; idx < length; idx++) {
+		   if(prePath.charAt(idx) == '/') {
+				numb++;
+			}
+	   }
+	   
+	   return numb;
+	  
+   }
+   
     public boolean pathMatch(String uri){
 		if(pathVal) {
 		   return antPathMatcher.match(urlStr, uri);
@@ -101,12 +151,21 @@ public class NettyReqUriProp {
 		this.mapMethod = mapMethod;
 	}
 
-	public static int getMinIdx() {
-		return minIdx;
+	
+	public static int getPathValURLCount() {
+		return pathValURLCount;
 	}
 
-	public static int getMaxIdx() {
-		return maxIdx;
+	public static int getSingleUrlCount() {
+		return SingleUrlCount;
+	}
+
+	public static int getMinSlashIdx() {
+		return minSlashIdx;
+	}
+
+	public static int getMaxSlashCount() {
+		return maxSlashCount;
 	}
 
 	

@@ -21,6 +21,7 @@ import io.netty.mvc.bind.NettyMvcException;
 import io.netty.mvc.bind.NettyMvcInterceptor;
 import io.netty.mvc.config.Constants;
 import io.netty.mvc.config.NettyMvcExceptions;
+import io.netty.mvc.utils.StringUtils;
 
 /**
  * 
@@ -33,48 +34,52 @@ public class NettyRestContext {
 	private final static List<NettyMvcInterceptorWrapper> intercepters = new ArrayList<>();
 	private final static List<NettyListenerWrapper> listeners = new ArrayList<>();
 	private final static Map<String, Map<String, List<NettyReqUriProp>>> requestPathMap = new HashMap<>();
-	
 
 	public NettyReqUriProp getRequestMethod(String url, HttpMethod method) throws NettyMvcException {
 		try {
-			 Map<String, List<NettyReqUriProp>> reqMethodMap = requestPathMap.get(url);
-			 List<NettyReqUriProp> propList =null;
-			 if(reqMethodMap != null) {
-				 propList = reqMethodMap.get(method.name());
-			 }
-			 
-			
-			
-			if(propList == null) {
-				String maxPreStr= url.substring(0, NettyReqUriProp.getMaxIdx());
-				int index = maxPreStr.lastIndexOf(Constants.BACKSLASH)+1;
-				if(index < NettyReqUriProp.getMaxIdx()) {
-					maxPreStr = maxPreStr.substring(0, index);
+			List<NettyReqUriProp> propList = null;
+			Map<String, List<NettyReqUriProp>> reqMethodMap = null;
+			if (NettyReqUriProp.getSingleUrlCount() > 0) {
+				reqMethodMap = requestPathMap.get(url);
+				if (reqMethodMap != null) {
+					propList = reqMethodMap.get(method.name());
 				}
-				int minIdx = NettyReqUriProp.getMinIdx()-2;
-				do{
-					
-					reqMethodMap = requestPathMap.get(maxPreStr);
-					if(reqMethodMap != null) {
-						propList = reqMethodMap.get(method.name());
-					}
-					
-					if(propList != null) {
-						break;
-					}
-					for(int lastIdx = (index-2); lastIdx > minIdx; lastIdx--) {
-						if(maxPreStr.charAt(lastIdx) == '/') {
-							index = lastIdx+1;
-							maxPreStr = maxPreStr.substring(0, index);
-						}
-					}
-					
-				}while(propList == null && index > minIdx);
-				
-				
-				
-				
 			}
+
+			if (propList == null && NettyReqUriProp.getPathValURLCount() > 0) {
+
+				String maxPrefixPathStr = NettyReqUriProp.subPrePathCountChar(url, '/',
+						NettyReqUriProp.getMaxSlashCount());
+				if (maxPrefixPathStr.length() <= NettyReqUriProp.getMinSlashIdx()) {
+					throw NettyMvcExceptions.NOT_FOUND_SOURCE;
+				}
+				reqMethodMap = requestPathMap.get(maxPrefixPathStr);
+				if (reqMethodMap != null) {
+					propList = reqMethodMap.get(method.name());
+				}
+				if (propList == null) {
+					int maxCount = NettyReqUriProp.countPrePathSlash(maxPrefixPathStr) - 1;
+
+					do {
+						maxPrefixPathStr = NettyReqUriProp.subPrePathCountChar(url, '/', maxCount);
+						if (maxPrefixPathStr.length() <= NettyReqUriProp.getMinSlashIdx()) {
+							throw NettyMvcExceptions.NOT_FOUND_SOURCE;
+						}
+
+						reqMethodMap = requestPathMap.get(maxPrefixPathStr);
+						if (reqMethodMap != null) {
+							propList = reqMethodMap.get(method.name());
+						}
+
+						if (propList != null) {
+							break;
+						}
+						maxCount--;
+
+					} while (propList == null);
+				}
+			}
+
 			for (NettyReqUriProp prop : propList) {
 				if (prop.pathMatch(url)) {
 					return prop;
@@ -98,7 +103,7 @@ public class NettyRestContext {
 		return listeners;
 	}
 
-	public void initRequestMap(Map<String, Object> objs) {
+	public void initRequestMap(Map<String, Object> objs) throws NettyMvcException {
 		for (Object bean : objs.values()) {
 
 			logger.info("the controller name-" + bean.getClass().getName());
@@ -135,8 +140,7 @@ public class NettyRestContext {
 					logger.info("init maping url--" + reqHttpPath + "-----" + reqHttpMethod);
 					Entry<Method, Object> entry = new Node<Method, Object>(reqMethodObj, bean);
 
-	                processReqPathVal(requestPathMap, reqHttpPath, reqHttpMethod, entry);
-			
+					processReqPathVal(requestPathMap, reqHttpPath, reqHttpMethod, entry);
 
 				}
 
@@ -145,37 +149,47 @@ public class NettyRestContext {
 		}
 	}
 
-	private void processReqPathVal(Map<String, Map<String, List<NettyReqUriProp>>> requestUriMapList,
-			String uri, String method, Entry<Method, Object> methodObj) {
-		
+	private void processReqPathVal(Map<String, Map<String, List<NettyReqUriProp>>> requestUriMapList, String uri,
+			String method, Entry<Method, Object> methodObj) throws NettyMvcException {
+
 		String prefix = null;
 		boolean pathValFlag = NettyReqUriProp.isPattern(uri);
 		if (pathValFlag) {
 			prefix = uri.substring(0, uri.indexOf(Constants.PATH_VAL_PREFIX));
-		}else {
+		} else {
 			prefix = uri;
 		}
 		Map<String, List<NettyReqUriProp>> preMap = requestUriMapList.get(prefix);
-			if (preMap != null) {
-				List<NettyReqUriProp> propList = preMap.get(method);
-				if (propList == null) {
+		if (preMap != null) {
+			List<NettyReqUriProp> propList = preMap.get(method);
+			if (propList == null) {
+				if (pathValFlag) {
 					propList = new ArrayList<>();
-					NettyReqUriProp nrup = NettyReqUriProp.newInstance(uri, pathValFlag, methodObj);
-					propList.add(nrup);
-					preMap.put(method, propList);
 				} else {
-					NettyReqUriProp nrup = NettyReqUriProp.newInstance(uri, pathValFlag, methodObj);
-					propList.add(nrup);
+					propList = new ArrayList<>(1);
 				}
-
-			}else{
-				List<NettyReqUriProp> newPropList = new ArrayList<>();
 				NettyReqUriProp nrup = NettyReqUriProp.newInstance(uri, pathValFlag, methodObj);
-				newPropList.add(nrup);
-				Map<String, List<NettyReqUriProp>> methodMap = new HashMap<>();
-				methodMap.put(method, newPropList);
-				requestUriMapList.put(prefix, methodMap);
+				propList.add(nrup);
+				preMap.put(method, propList);
+			} else {
+				NettyReqUriProp nrup = NettyReqUriProp.newInstance(uri, pathValFlag, methodObj);
+				propList.add(nrup);
 			}
+
+		} else {
+			List<NettyReqUriProp> newPropList = null;
+			if (pathValFlag) {
+				newPropList = new ArrayList<>();
+			} else {
+				newPropList = new ArrayList<>(1);
+			}
+
+			NettyReqUriProp nrup = NettyReqUriProp.newInstance(uri, pathValFlag, methodObj);
+			newPropList.add(nrup);
+			Map<String, List<NettyReqUriProp>> methodMap = new HashMap<>();
+			methodMap.put(method, newPropList);
+			requestUriMapList.put(prefix, methodMap);
+		}
 
 	}
 

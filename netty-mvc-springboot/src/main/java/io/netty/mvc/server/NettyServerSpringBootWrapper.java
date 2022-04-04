@@ -21,6 +21,7 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.mvc.annotation.component.NettyInterceptor;
 import io.netty.mvc.annotation.component.NettyListener;
 import io.netty.mvc.annotation.component.NettyRestController;
+import io.netty.mvc.bind.NettyMvcException;
 import io.netty.mvc.config.NettyConfigConstant;
 import io.netty.mvc.config.NettyRestConfigures;
 /**
@@ -63,7 +64,12 @@ public class NettyServerSpringBootWrapper implements CommandLineRunner, Applicat
 		Map<String, Object> restControllerObj = event.getApplicationContext()
 				.getBeansWithAnnotation(NettyRestController.class);
 		logger.info("the netty controller size-" + restControllerObj.size());
-		context.initRequestMap(restControllerObj);
+		try {
+			context.initRequestMap(restControllerObj);
+		} catch (NettyMvcException e) {
+			logger.error(e.getMessage(), e);
+			System.exit(1);
+		}
 		Map<String, Object> nettyInteceptors = event.getApplicationContext()
 				.getBeansWithAnnotation(NettyInterceptor.class);
 		context.initNettyMvcInterceptorWrapper(nettyInteceptors);

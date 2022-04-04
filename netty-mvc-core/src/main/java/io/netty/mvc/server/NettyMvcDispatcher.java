@@ -34,6 +34,7 @@ import io.netty.mvc.annotation.NettyRequestBody;
 import io.netty.mvc.bind.NettyHttpRequest;
 import io.netty.mvc.bind.NettyHttpResponse;
 import io.netty.mvc.bind.NettyMvcException;
+import io.netty.mvc.bind.NettyMvcInterceptor;
 import io.netty.mvc.config.NettyMvcExceptions;
 import io.netty.util.CharsetUtil;
 
@@ -82,11 +83,19 @@ public class NettyMvcDispatcher {
 		NettyHttpRequest nettyHttpReq = new NettyHttpRequest(fullHttpRequest, urlParamsMap, pathVals);
 		NettyHttpResponse nettyHttpResp = new NettyHttpResponse(response);
 
+		
 		List<NettyMvcInterceptorWrapper> wrappers = context.getIntercepters();
+		Object resultObj = null;
+		Exception afterCompletionExcep = null;
+		try {
 		for (NettyMvcInterceptorWrapper wraper : wrappers) {
-			if (!wraper.getIntercepter().preHandle(nettyHttpReq, nettyHttpResp)) {
-				return;
+			NettyMvcInterceptor interpt = wraper.getIntercepter();
+			if(interpt.isIterceptPath(url, nettyHttpReq)) {
+				if (!interpt.preHandle(nettyHttpReq, nettyHttpResp)) {
+					return;
+				}
 			}
+			
 		}
 
 		Entry<Method, Object> entry = propUri.getMapMethod();
@@ -94,7 +103,7 @@ public class NettyMvcDispatcher {
 		Parameter[] parameters = reqMethod.getParameters();
 		Object[] paramObjs = bindParamObjs(parameters, nettyHttpReq, nettyHttpResp);
 
-		Object resultObj = null;
+		
 		try {
 			if (paramObjs != null) {
 				resultObj = reqMethod.invoke(entry.getValue(), paramObjs);
@@ -121,14 +130,19 @@ public class NettyMvcDispatcher {
 					return;
 				}
 			}
-
+			
 			throw e;
 
 		}
 
 		int index = wrappers.size() - 1;
 		while (index > -1) {
-			wrappers.get(index).getIntercepter().postHandle(nettyHttpReq, nettyHttpResp, resultObj);
+			
+			NettyMvcInterceptor interpt = wrappers.get(index).getIntercepter();
+			if(interpt.isIterceptPath(url, nettyHttpReq)) {
+				interpt.postHandle(nettyHttpReq, nettyHttpResp, resultObj);
+			}
+			
 			index--;
 		}
 
@@ -155,6 +169,20 @@ public class NettyMvcDispatcher {
 		byteBuf.release();
 		response.headers().set("Content-Type", "application/json;charset=UTF-8");
 		response.setStatus(HttpResponseStatus.OK);
+		}catch(Exception ex) {
+			afterCompletionExcep = ex;
+			throw ex;
+		}finally {
+			int ind = wrappers.size() - 1;
+			while (ind > -1) {
+				NettyMvcInterceptor interpt = wrappers.get(ind).getIntercepter();
+				if(interpt.isIterceptPath(url, nettyHttpReq)) {
+					interpt.afterCompletion(nettyHttpReq, nettyHttpResp, resultObj, afterCompletionExcep);
+				}
+				
+				ind--;
+			}
+		}
 
 	}
 
