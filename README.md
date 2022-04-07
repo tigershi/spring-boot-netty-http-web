@@ -33,6 +33,139 @@ gradlew build
 * netty-mvc-sample项目，使用netty-http-server项目的示例代码：
  包括怎样使用注解实现restful风格接口contoller，怎样使用注解实现interceptor，listener，exceptionHandler
 
+## 怎样使用restfulcontroller注解
+### 基于java class的注解
+```
+@NettyRestController
+public class TestNettyMvcController {
+
+	@NettyRequestMapping("/testErr")
+	public String testError() throws TestException{
+		throw TestModelExceptionHandlers.TEST_ERROR.vIPException();
+		
+		//return "test error";
+	}
+	
+	@NettyRequestMapping(value = "/testmodel", method=NettyHttpMethods.POST)
+	public TestModel abc( @NettyRequestBody TestModel test) {
+		
+		test.setName("this is a test response");
+		test.setTest("test return is object");
+		return test;
+	}
+	
+	
+	@NettyRequestMapping(value = "/testpathval/{name}/{age}", method=NettyHttpMethods.POST)
+	public TestModel abc( @NettyPathVal(name="name") String name, @NettyPathVal(name="age")Integer age,
+			@NettyReqParam(name = "sex") Boolean sex,
+			@NettyReqParam(name = "phone") String phone,
+			@NettyReqParam(name = "grade") String grade
+			) {
+		TestModel test = new TestModel();
+		test.setName(name + age + phone+String.valueOf(sex));
+		test.setTest("test return is object+"+grade);
+		return test;
+	}
+}
+```
+
+### 基于interface的注解
+    此方式比较适合微服务开发
+
+```
+public interface TestRequstMapInterfaceAPI {
+	@NettyRequestMapping(value = "/test")
+	public TestModel abc() ;
+	
+	@NettyRequestMapping(value="/testStr")
+	public String abcStr();
+}
+
+@NettyRestController
+public class TestRequstMapByInterfaceController implements TestRequstMapInterfaceAPI {
+
+
+public TestModel abc() {
+	TestModel test = new TestModel();
+	test.setId(23);
+	test.setName("this is a test");
+	test.setTest("test return is object");
+	return test;
+}
+
+
+public String abcStr() {
+	return "this is a test";
+}
+
+}
+
+```
+
+
+## 如何使用interceptor
+
+```
+@NettyInterceptor
+public class TestInterceptor implements NettyMvcInterceptor{
+	
+	 private static Logger logger = LoggerFactory.getLogger(TestInterceptor.class); 
+	@Override
+	public void postHandle(NettyHttpRequest request, NettyHttpResponse response, Object responseObj) throws Exception {
+		// TODO Auto-generated method stub
+		logger.info("this is test the postHander interceptor");
+	}
+
+	@Override
+	public boolean isIterceptPath(String formatPath, NettyHttpRequest request) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void afterCompletion(NettyHttpRequest request, NettyHttpResponse response, Object responseObj, Exception ex)
+			throws Exception {
+		// TODO Auto-generated method stub
+		logger.info("this is test the afterCompletion interceptor");
+		
+	}
+
+	@Override
+	public boolean preHandle(NettyHttpRequest request, NettyHttpResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		logger.info("this is test the preHander interceptor");
+		return true;
+	}
+
+}
+```
+
+
+## 如何使用listener
+```
+@NettyListener
+public class TestListener implements NettyAppListener{
+	 private static Logger logger = LoggerFactory.getLogger(TestListener.class);
+
+	@Override
+	public void created(NettyRestConfigures configure) {
+		// TODO Auto-generated method stub
+		 logger.info("this is test the start TestListener");
+	}
+
+	@Override
+	public void destoryed(NettyRestConfigures configure) {
+		// TODO Auto-generated method stub
+		 logger.info("this is test the stop TestListener");
+	} 
+	
+}
+```
+
+
+
+
+
 
 ##运行netty-mvc-sample项目
 ```
