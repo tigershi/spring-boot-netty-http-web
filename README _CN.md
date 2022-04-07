@@ -1,45 +1,40 @@
 # netty http server with spring boot
 
-  netty-http-server base on netty4.x. It can provide restful style MVC framework and use as mirco-server. It also can integrate with spring-boot seamlessly and annotate the implementation (response json body,
-  requestbody , requestparameter, pathvalue parameter auto-inject), interceptor, restful-controller, listener and exceptionHandler function
+  本项目是基于netty4.x 实现的一个httpserver 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，注解化实现了返回requestbody为Json格式， 支持（requestbody , requestparameter, pathvalue）参数自动注入 , restful-controller, interceptor， listener， exceptionHandler功能。 
 
-## advantages
+## 优点
 
-* annotate restful style MVC framework and use as mirco-server
-* support HTTPS
-* support use @NettyRestController as controller
-* integrate with spring-boot seamlessly
-* netty have a advantage in profermance
-* reduce web container and jar dependency
-* similar with springmvc，easy to learn
-* support path value configure use annotation
-* support parameter annotation and parameter auto-inject
+* 使用注解配置简单，支持所有restful接口的微服务应用
+* 支持HTTPS协议
+* 支持使用注解实现路由方法
+* 实现与spring-boot无缝集成
+* netty使用多路复用技术大幅提升性能
+* 减少web容器依赖，减少jar包体积
+* 完全按照springmvc的模式开发配置相似，容易上手
+* 支持支持各种规则的path配置
+* 实现了参数注解和自动注入使用方便
 
-# start quickly
-
-## prequirement
+# 快速开始
+## 先决条件
 -------------
 
 - JDK 8 
 - git
 
-## how to get code and build
+## 怎样得到代码及编译
 ```
 git clone git@github.com:tigershi/netty-http-server.git
 cd netty-http-server
 gradlew build
 ```
+执行完上边的命令就可以看到gradle组织结构netty-http-server项目
+* netty-mvc-core项目 netty http sever及mvc核心代码
+* netty-mvc-springboot项目, 实现和springboot无缝集成
+* netty-mvc-sample项目，使用netty-http-server项目的示例代码：
+ 包括怎样使用注解实现restful风格接口contoller，怎样使用注解实现interceptor，listener，exceptionHandler
 
-## The netty-http-server structure
- 
-* netty-mvc-core:  netty http sever and mvc core code
-* netty-mvc-springboot: springboot integration code
-* netty-mvc-sample: netty-http-server Sample code project(include: how to use response json body,
-  requestbody , requestparameter, pathvalue, interceptor, restful-controller, listener and exceptionHandler)
-
-
-## netty-http-server restfulcontroller
-### base on java class' annotation
+## 怎样使用restfulcontroller注解
+### 基于java class的注解
 ```
 @NettyRestController
 public class TestNettyMvcController {
@@ -74,8 +69,8 @@ public class TestNettyMvcController {
 }
 ```
 
-### base on interface's annotation
-    It usually use in mirco-service server
+### 基于interface的注解
+    此方式比较适合微服务开发
 
 ```
 public interface TestRequstMapInterfaceAPI {
@@ -108,7 +103,7 @@ public String abcStr() {
 ```
 
 
-## netty-http-server interceptor
+## 如何使用interceptor
 
 ```
 @NettyInterceptor
@@ -146,7 +141,7 @@ public class TestInterceptor implements NettyMvcInterceptor{
 ```
 
 
-## how to use netty-http-server listener
+## 如何使用listener
 ```
 @NettyListener
 public class TestListener implements NettyAppListener{
@@ -167,7 +162,7 @@ public class TestListener implements NettyAppListener{
 }
 ```
 
-## how to use netty-http-server exceptionHandler
+## 如何使用exceptionHandler
 ```
 @NettyMvcExceptionHandler
 public class TestException extends NettyMvcException{
@@ -242,16 +237,16 @@ StringBuilder sb = new StringBuilder();
 
 
 
-##run netty-mvc-sample 
+##运行netty-mvc-sample项目
 ```
-the class netty-mvc-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java is the netty-mvc-sample project's entrance
-
+运行netty-mvc-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java 类
+就可以运行sample项目
 ```
-The browser address：
+在浏览器的地址是：
 > https://localhost:8099
 
- The detail look on netty-mvc-sample project
+具体的如何应用请参考netty-mvc-sample项目
 
- It's my pleasure it if you can provider issue
+有问题欢迎随时提issues. 
 
 Thanks
