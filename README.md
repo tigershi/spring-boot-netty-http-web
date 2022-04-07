@@ -243,10 +243,11 @@ StringBuilder sb = new StringBuilder();
 
 
 ##run netty-mvc-sample 
-```
-the class netty-mvc-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java is the netty-mvc-sample project's entrance
 
-```
+  the class netty-mvc-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java 
+is the netty-mvc-sample project's entrance
+
+
 The browser address：
 > https://localhost:8099
 
