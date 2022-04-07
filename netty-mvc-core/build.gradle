@@ -12,3 +12,12 @@ dependencies {
     compileOnly("org.slf4j:slf4j-api:$slf4jApi")
     
  }
+ 
+ task copyCoreJars(type: Copy, dependsOn: jar) {
+    from "$buildDir/libs"
+    into "$rootDir/publish/"
+    println "The build was output to -> $rootDir/../publish/"
+    include "**/*.jar"
+}
+
+assemble.dependsOn.add copyCoreJars

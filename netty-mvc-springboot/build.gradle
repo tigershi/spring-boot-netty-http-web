@@ -14,3 +14,11 @@ dependencies {
     
  }
  
+  task copyJars(type: Copy, dependsOn: jar) {
+    from "$buildDir/libs"
+    into "$rootDir/publish/"
+    println "The build was output to -> $rootDir/../publish/"
+    include "**/*.jar"
+}
+
+assemble.dependsOn.add copyJars
