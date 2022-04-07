@@ -1,4 +1,4 @@
-# Netty http server
+# Netty http server with spring-boot
 
   netty-http-server is base on netty4.x. It can provide restful style MVC framework，use as mirco-server and integrate with spring-boot seamlessly. It also can annotate the implementation (response json body,
   requestbody , requestparameter, pathvalue parameter auto-inject), interceptor, restful-controller, listener and exceptionHandler function
