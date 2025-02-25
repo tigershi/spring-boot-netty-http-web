@@ -1,11 +1,12 @@
 buildscript {
 	ext {
-		springBootVersion = '2.5.12'
+		springBootVersion = '2.7.18'
 	}
 	repositories {
 		mavenLocal()
         mavenCentral()
         maven { url 'https://repo.spring.io/libs-milestone' }
+        maven { url 'https://jitpack.io' }
         jcenter()
 	}
 	dependencies {
@@ -36,8 +37,8 @@ sourceSets {
 dependencies {
     //implementation project(":netty-mvc-core");
     //implementation project(":netty-mvc-springboot");
-    
-    implementation fileTree(dir: 'lib', include: [ '*.jar'])
+    implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-core:v1.0.0'
+    implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-springboot:v1.0.0'
     implementation ("io.netty:netty-all:$nettyVersion")
     implementation("com.alibaba:fastjson:$fasterjsonVersion")
     implementation("org.slf4j:slf4j-api:$slf4jApi")

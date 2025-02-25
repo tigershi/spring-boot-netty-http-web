@@ -18,7 +18,8 @@ subprojects {
     	springContext = '5.3.18'
     	slf4jApi= '1.7.25'
     	springBoot='2.5.12'
-}
+        buildVersion='1.1.0'
+  }
 
 
 apply plugin: 'java-library'
@@ -33,6 +34,7 @@ targetCompatibility = 1.8
 repositories {
         mavenLocal()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
         maven { url 'https://repo.spring.io/libs-milestone' }
         jcenter()
 }

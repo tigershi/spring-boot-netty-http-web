@@ -1,7 +1,7 @@
 
 // jar‘s name
 archivesBaseName = 'netty-mvc-core'
-version='1.0.0'
+version= "$buildVersion"
 
 
 

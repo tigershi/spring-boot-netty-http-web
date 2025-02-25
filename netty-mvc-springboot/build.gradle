@@ -1,8 +1,7 @@
 
 // jar‘s name
 archivesBaseName = 'netty-mvc-springboot'
-version='1.0.0'
-
+version= "$buildVersion"
 
 
 dependencies {
