@@ -9,6 +9,7 @@ dependencies {
     compileOnly("com.alibaba:fastjson:$fasterjsonVersion")
     compileOnly("org.springframework:spring-context:$springContext")
     compileOnly("org.slf4j:slf4j-api:$slf4jApi")
+    compileOnly("org.springframework.boot:spring-boot:$springBoot")
     
  }
  
