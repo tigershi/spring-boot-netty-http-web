@@ -1,23 +1,22 @@
 
 // jar‘s name
-archivesBaseName = 'netty-mvc-springboot'
+archivesBaseName = 'netty-mvc-web'
 version= "$buildVersion"
 
 
 dependencies {
-    implementation project(":netty-mvc-core")
-    compileOnly ("io.netty:netty-all:$nettyVersion")
+    compileOnly("io.netty:netty-all:$nettyVersion")
     compileOnly("com.alibaba:fastjson:$fasterjsonVersion")
+    compileOnly("org.springframework:spring-context:$springContext")
     compileOnly("org.slf4j:slf4j-api:$slf4jApi")
-    compileOnly("org.springframework.boot:spring-boot:$springBoot")
     
  }
  
-  task copyJars(type: Copy, dependsOn: jar) {
+ task copyCoreJars(type: Copy, dependsOn: jar) {
     from "$buildDir/libs"
     into "$rootDir/publish/"
     println "The build was output to -> $rootDir/../publish/"
     include "**/*.jar"
 }
 
-assemble.dependsOn.add copyJars
+assemble.dependsOn.add copyCoreJars

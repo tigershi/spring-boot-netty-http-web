@@ -20,7 +20,7 @@ apply plugin: 'io.spring.dependency-management'
 //apply plugin: 'war'
 
 description = 'netty-mvc-rest sample'
-archivesBaseName = 'netty-mvc-sample'
+archivesBaseName = 'netty-web-server-sample'
 
 
 sourceSets {
@@ -35,10 +35,8 @@ sourceSets {
 
 
 dependencies {
-    //implementation project(":netty-mvc-core");
-    //implementation project(":netty-mvc-springboot");
-    implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-core:v1.1.0'
-    implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-springboot:v1.1.0'
+    implementation project(":netty-mvc-web");
+    //implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-web:v2.0.0'
     implementation ("io.netty:netty-all:$nettyVersion")
     implementation("com.alibaba:fastjson:$fasterjsonVersion")
     implementation("org.slf4j:slf4j-api:$slf4jApi")

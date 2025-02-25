@@ -13,11 +13,11 @@ buildscript {
 
 subprojects { 
   ext{
-        fasterjsonVersion='1.2.56'
+        fasterjsonVersion='1.2.83'
      	nettyVersion='4.1.34.Final'
-    	springContext = '5.3.18'
-    	slf4jApi= '1.7.25'
-    	springBoot='2.5.12'
+    	springContext = '5.3.31'
+    	slf4jApi= '1.7.36'
+    	springBoot='2.7.18'
         buildVersion='1.1.0'
   }
 
