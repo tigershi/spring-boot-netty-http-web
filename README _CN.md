@@ -1,6 +1,6 @@
 # netty http server with spring boot
 
-  本项目是基于netty4.x 实现的一个httpserver,支持NIO, EPOLL, IO_Uring 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，注解化实现了返回requestbody为Json格式， 支持（requestbody , requestparameter, pathvalue）参数自动注入 , restful-controller, interceptor， listener， exceptionHandler功能。 
+  本项目是基于netty4.x 实现的一个httpserver,支持NIO, EPOLL(linux os), IO_Uring(linux os) 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，注解化实现了返回requestbody为Json格式， 支持（requestbody , requestparameter, pathvalue）参数自动注入 , restful-controller, interceptor， listener， exceptionHandler功能。 
 
 ## 优点
 
@@ -13,6 +13,7 @@
 * 完全按照springmvc的模式开发配置相似，容易上手
 * 支持支持各种规则的path配置
 * 实现了参数注解和自动注入使用方便
+* 支持epoll 和 io_uring
 
 # 快速开始
 ## 先决条件

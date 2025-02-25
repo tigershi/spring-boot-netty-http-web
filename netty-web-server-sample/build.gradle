@@ -39,7 +39,7 @@ sourceSets {
 
 dependencies {
     implementation project(":netty-mvc-web");
-
+    ////implementation 'com.github.tigershi:spring-boot-netty-http-web:netty-mvc-web:v2.0.0'
     implementation ("io.netty:netty-all:$nettyVersion")
     implementation ("io.netty:netty-transport-native-epoll:$nettyVersion:linux-x86_64")
     implementation("io.netty.incubator:netty-incubator-transport-native-io_uring:$io_uringVersion:linux-x86_64")

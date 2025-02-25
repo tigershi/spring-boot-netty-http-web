@@ -1,6 +1,6 @@
 # Netty http server with spring-boot
 
-  netty-http-server is base on netty4.x. It can provide nio, epoll, io_uring server and restful style MVC framework，use as mirco-server and integrate with spring-boot seamlessly. It also can annotate the implementation (response json body,
+  netty-http-server is base on netty4.x. It can provide nio, epoll(linux os), io_uring(linux os) server and restful style MVC framework，use as mirco-server and integrate with spring-boot seamlessly. It also can annotate the implementation (response json body,
   requestbody , requestparameter, pathvalue parameter auto-inject), interceptor, restful-controller, listener and exceptionHandler function
 
 ## advantages
@@ -14,6 +14,7 @@
 * similar with springmvc，easy to learn
 * support path value configure use annotation
 * support parameter annotation and parameter auto-inject
+* support epoll and io_uring in linux os
 
 # quick start
 
