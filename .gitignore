@@ -8,4 +8,5 @@
 .settings
 /publish/
 .idea/
+logs/
 

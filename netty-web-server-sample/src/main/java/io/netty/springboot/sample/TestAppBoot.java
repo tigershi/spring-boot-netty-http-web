@@ -10,7 +10,6 @@ import org.springframework.context.annotation.ComponentScan;
  *
  */
 @SpringBootApplication
-@ComponentScan
 public class TestAppBoot {
 	public static void main(String[] args) {
 		
