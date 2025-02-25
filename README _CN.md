@@ -1,6 +1,6 @@
 # netty http server with spring boot
 
-  本项目是基于netty4.x 实现的一个httpserver 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，注解化实现了返回requestbody为Json格式， 支持（requestbody , requestparameter, pathvalue）参数自动注入 , restful-controller, interceptor， listener， exceptionHandler功能。 
+  本项目是基于netty4.x 实现的一个httpserver,支持NIO, EPOLL, IO_Uring 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，注解化实现了返回requestbody为Json格式， 支持（requestbody , requestparameter, pathvalue）参数自动注入 , restful-controller, interceptor， listener， exceptionHandler功能。 
 
 ## 优点
 
@@ -23,8 +23,8 @@
 
 ## 怎样得到代码及编译
 ```
-git clone git@github.com:tigershi/spring-boot-netty-http-web.git
-cd spring-boot-netty-http-web
+git clone git@github.com:tigershi/netty-http-server.git
+cd netty-http-server
 gradlew build
 ```
 执行完上边的命令就可以看到gradle组织结构netty-http-server项目

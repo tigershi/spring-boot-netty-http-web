@@ -7,6 +7,10 @@ import java.util.Map;
 
 import javax.net.ssl.KeyManagerFactory;
 
+import io.netty.channel.epoll.Epoll;
+import io.netty.incubator.channel.uring.IOUring;
+import io.netty.mvc.config.Constants;
+import io.netty.util.NettyRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,11 +51,41 @@ public class NettyServerSpringBootWrapper implements CommandLineRunner, Applicat
 		logger.info("start command line");
 		configure = new NettyRestConfigures();
 		Integer port = environment.getProperty(NettyConfigConstant.PORT, Integer.class);
+		//environment.getProperty(NettyConfigConstant, Integer.class)
+		Integer bossSize = environment.getProperty(NettyConfigConstant.BOSS_GROUP_SIZE, Integer.class);
+		Integer workSize = environment.getProperty(NettyConfigConstant.WORK_GROUP_SIZE, Integer.class);
+         if (bossSize == null  || bossSize == 0){
+			 configure.setBossGroupSize(Constants.SERVER_CONFIG_BOSS_GROUP_DEFAULT_SIZE);
+		 }else {
+			 configure.setBossGroupSize(bossSize);
+		 }
+
+		 if (workSize == null){
+			 configure.setWorkGroupSize(Constants.SERVER_CONFIG_WORK_GROUP_DEFAULT_SIZE);
+		 }else {
+			 configure.setWorkGroupSize(workSize);
+		 }
+
 		configure.setPort(port);
 		configure.setContext(context);
 		configure.setNettyMvcDispatcher(new NettyMvcDispatcher(context));
 		configure.setSslContext(initSslContext());
-		server = new NettyRestServer(configure);
+		String startType = environment.getProperty(NettyConfigConstant.EVENT_GROUP_TYPE, String.class);
+
+		if (startType == null || startType.isEmpty() || startType.equalsIgnoreCase(Constants.SERVER_CONFIG_GROUP_DEFAULT_TYPE)){
+			if(Epoll.isAvailable()){
+				server = new NettyEpollRestServer(configure);
+			}else{
+				server = new NettyNioRestServer(configure);
+			}
+		}else if(Constants.SERVER_CONFIG_GROUP_EPOLL_TYPE.equalsIgnoreCase(startType) && Epoll.isAvailable()){
+			server = new NettyEpollRestServer(configure);
+		}else if(Constants.SERVER_CONFIG_GROUP_IO_URING_TYPE.equalsIgnoreCase(startType) && IOUring.isAvailable()){
+		    server = new NettyIoUringRestServer(configure);
+	     }else {
+			server = new NettyNioRestServer(configure);
+		}
+
 		System.gc();
 		server.start();
 

@@ -18,6 +18,15 @@ public class NettyRestConfigures  implements Serializable {
 	 */
 	private static final long serialVersionUID = 3594838354211618550L;
 	private int port;
+	private int bossGroupSize;
+	private int workGroupSize;
+
+	private NettyRestContext context;
+
+	private NettyMvcDispatcher nettyMvcDispatcher;
+
+	private SslContext sslContext=null;
+
 
 	public int getPort() {
 		return port;
@@ -51,12 +60,19 @@ public class NettyRestConfigures  implements Serializable {
 		this.sslContext = sslContext;
 	}
 
-	private NettyRestContext context;
-	
-	private NettyMvcDispatcher nettyMvcDispatcher;
-	
-    private SslContext sslContext=null;
-	
+	public int getBossGroupSize() {
+		return bossGroupSize;
+	}
 
-	
+	public void setBossGroupSize(int bossGroupSize) {
+		this.bossGroupSize = bossGroupSize;
+	}
+
+	public int getWorkGroupSize() {
+		return workGroupSize;
+	}
+
+	public void setWorkGroupSize(int workGroupSize) {
+		this.workGroupSize = workGroupSize;
+	}
 }

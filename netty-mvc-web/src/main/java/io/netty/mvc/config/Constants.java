@@ -8,6 +8,14 @@ package io.netty.mvc.config;
  */
 public interface Constants {
 	public final static String SERVER_CONFIG_PREFIX = "netty.server.";
+	public final static int SERVER_CONFIG_WORK_GROUP_DEFAULT_SIZE =0;
+	public final static int SERVER_CONFIG_BOSS_GROUP_DEFAULT_SIZE =1;
+	public final static String SERVER_CONFIG_GROUP_DEFAULT_TYPE ="auto";
+	public final static String SERVER_CONFIG_GROUP_NIO_TYPE ="nio";
+	public final static String SERVER_CONFIG_GROUP_EPOLL_TYPE ="epoll";
+	public final static String SERVER_CONFIG_GROUP_IO_URING_TYPE ="io_uring";
+
+
 	public final static String PATH_VAL_PREFIX = "{";
 	public final static String PATH_VAL_SUFFIX = "}";
 	public final static String PATH_REPLACE_STR = "{\\w}";

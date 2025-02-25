@@ -29,7 +29,7 @@ import io.netty.util.CharsetUtil;
 @Sharable
 public class NettyRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest>{
 	
-	private static Logger logger = LoggerFactory.getLogger(NettyRestServer.class); 
+	private static Logger logger = LoggerFactory.getLogger(NettyRequestHandler.class);
 
 	public NettyRequestHandler(NettyRestConfigures conf) {
 		this.config = conf;

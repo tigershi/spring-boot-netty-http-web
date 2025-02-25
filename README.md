@@ -1,6 +1,6 @@
 # Netty http server with spring-boot
 
-  netty-http-server is base on netty4.x. It can provide restful style MVC framework，use as mirco-server and integrate with spring-boot seamlessly. It also can annotate the implementation (response json body,
+  netty-http-server is base on netty4.x. It can provide nio, epoll, io_uring server and restful style MVC framework，use as mirco-server and integrate with spring-boot seamlessly. It also can annotate the implementation (response json body,
   requestbody , requestparameter, pathvalue parameter auto-inject), interceptor, restful-controller, listener and exceptionHandler function
 
 ## advantages
@@ -25,8 +25,8 @@
 
 ## how to get code and build
 ```
-git clone git@github.com:tigershi/spring-boot-netty-http-web.git
-cd spring-boot-netty-http-web
+git clone git@github.com:tigershi/netty-http-server.git
+cd netty-http-server
 gradlew build
 ```
 
@@ -38,7 +38,7 @@ gradlew build
   requestbody , requestparameter, pathvalue, interceptor, restful-controller, listener and exceptionHandler)
 
 
-## netty-http-server restful controller
+## netty-http-server restfulcontroller
 ### base on java class' annotation
 ```
 @NettyRestController

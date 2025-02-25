@@ -1,11 +1,13 @@
 
 // jar‘s name
 archivesBaseName = 'netty-mvc-web'
-version= "$buildVersion"
+version="$buildVersion"
+
 
 
 dependencies {
     compileOnly("io.netty:netty-all:$nettyVersion")
+    compileOnly("io.netty.incubator:netty-incubator-transport-native-io_uring:$io_uringVersion:linux-x86_64")
     compileOnly("com.alibaba:fastjson:$fasterjsonVersion")
     compileOnly("org.springframework:spring-context:$springContext")
     compileOnly("org.slf4j:slf4j-api:$slf4jApi")
