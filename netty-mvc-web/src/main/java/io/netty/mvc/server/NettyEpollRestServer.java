@@ -10,7 +10,12 @@ import io.netty.channel.epoll.EpollServerSocketChannel;
 import io.netty.mvc.config.NettyRestConfigures;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+/**
+ *
+ * @author shihu
+ * @Date  2019年5月10日
+ *
+ */
 public class NettyEpollRestServer implements  NettyRestServer{
 
     private static Logger logger = LoggerFactory.getLogger(NettyEpollRestServer.class);

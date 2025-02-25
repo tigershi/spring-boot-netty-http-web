@@ -10,7 +10,6 @@ import javax.net.ssl.KeyManagerFactory;
 import io.netty.channel.epoll.Epoll;
 import io.netty.incubator.channel.uring.IOUring;
 import io.netty.mvc.config.Constants;
-import io.netty.util.NettyRuntime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
