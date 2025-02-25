@@ -25,8 +25,8 @@
 
 ## how to get code and build
 ```
-git clone git@github.com:tigershi/netty-http-server.git
-cd netty-http-server
+git clone git@github.com:tigershi/spring-boot-netty-http-web.git
+cd spring-boot-netty-http-web
 gradlew build
 ```
 
@@ -38,7 +38,7 @@ gradlew build
   requestbody , requestparameter, pathvalue, interceptor, restful-controller, listener and exceptionHandler)
 
 
-## netty-http-server restfulcontroller
+## netty-http-server restful controller
 ### base on java class' annotation
 ```
 @NettyRestController

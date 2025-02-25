@@ -23,8 +23,8 @@
 
 ## 怎样得到代码及编译
 ```
-git clone git@github.com:tigershi/netty-http-server.git
-cd netty-http-server
+git clone git@github.com:tigershi/spring-boot-netty-http-web.git
+cd spring-boot-netty-http-web
 gradlew build
 ```
 执行完上边的命令就可以看到gradle组织结构netty-http-server项目

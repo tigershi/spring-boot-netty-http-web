@@ -1,4 +1,4 @@
-rootProject.name = 'netty-http-server'
+rootProject.name = 'spring-boot-netty-http-web'
 include 'netty-mvc-core'
 include 'netty-mvc-springboot'
 include 'netty-mvc-sample'
