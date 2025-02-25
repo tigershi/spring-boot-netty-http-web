@@ -35,8 +35,8 @@ sourceSets {
 
 
 dependencies {
-    implementation project(":netty-mvc-web");
-    //implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-web:v2.0.0'
+    //implementation project(":netty-mvc-web");
+    implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-web:v2.0.0'
     implementation ("io.netty:netty-all:$nettyVersion")
     implementation("com.alibaba:fastjson:$fasterjsonVersion")
     implementation("org.slf4j:slf4j-api:$slf4jApi")

@@ -18,7 +18,7 @@ subprojects {
     	springContext = '5.3.31'
     	slf4jApi= '1.7.36'
     	springBoot='2.7.18'
-        buildVersion='2.0.0'
+        buildVersion='v2.0.0'
   }
 
 
