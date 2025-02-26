@@ -1,6 +1,6 @@
 # netty http server with spring boot
 
-  本项目是基于netty4.x 实现的一个httpserver,支持NIO, EPOLL(linux os), IO_Uring(linux os) 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，注解化实现了返回requestbody为Json格式， 支持（requestbody , requestparameter, pathvalue）参数自动注入 , restful-controller, interceptor， listener， exceptionHandler功能。 
+  本项目是基于netty4.x 实现的一个http mvc server,支持NIO, EPOLL(linux os), IO_Uring(linux os) 以及restful风格的mvc框架，适合所有需要提供restful接口的微服务应用, 实现与spring-boot无缝集成，注解化实现了返回requestbody为Json格式， 支持（requestbody , requestparameter, pathvalue）参数自动注入 , restful-controller, interceptor， listener， exceptionHandler功能。 
 
 ## 优点
 
@@ -24,16 +24,48 @@
 
 ## 怎样得到代码及编译
 ```
-git clone git@github.com:tigershi/netty-http-server.git
-cd netty-http-server
-gradlew build
+git clone git@github.com:tigershi/spring-boot-netty-http-web.git
+cd spring-boot-netty-http-web
+gradlew clean build
 ```
 执行完上边的命令就可以看到gradle组织结构netty-http-server项目
-* netty-mvc-core项目 netty http sever及mvc核心代码
-* netty-mvc-springboot项目, 实现和springboot无缝集成
-* netty-mvc-sample项目，使用netty-http-server项目的示例代码：
+* netty-mvc-web netty http sever及mvc核心代码,实现和springboot无缝集成
+* netty-web-server-sample项目，使用netty-http-server项目的示例代码：
  包括怎样使用注解实现restful风格接口contoller，怎样使用注解实现interceptor，listener，exceptionHandler
-
+## 给项目添加依赖
+maven
+add repo
+```
+<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+</repositories>
+```
+add dependency
+```
+   <dependency>
+	    <groupId>com.github.tigershi.spring-boot-netty-http-web</groupId>
+	    <artifactId>netty-mvc-web</artifactId>
+	    <version>v2.0.0</version>
+	</dependency>
+```
+gradle
+add repo
+```
+dependencyResolutionManagement {
+		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+		repositories {
+			mavenCentral()
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+add dependency
+```
+implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-web:v2.0.0'
+```
 ## 怎样使用restfulcontroller注解
 ### 基于java class的注解
 ```
@@ -238,15 +270,15 @@ StringBuilder sb = new StringBuilder();
 
 
 
-##运行netty-mvc-sample项目
+##运行netty-web-server-sample项目
 ```
-运行netty-mvc-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java 类
+运行netty-web-server-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java 类
 就可以运行sample项目
 ```
 在浏览器的地址是：
 > https://localhost:8099
 
-具体的如何应用请参考netty-mvc-sample项目
+具体的如何应用请参考netty-web-server-sample项目
 
 有问题欢迎随时提issues. 
 

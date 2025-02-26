@@ -1,6 +1,6 @@
 # Netty http server with spring-boot
 
-  netty-http-server is base on netty4.x. It can provide nio, epoll(linux os), io_uring(linux os) server and restful style MVC framework，use as mirco-server and integrate with spring-boot seamlessly. It also can annotate the implementation (response json body,
+  netty-mvc-web is base on netty4.x. It can provide nio, epoll(linux os), io_uring(linux os) server and restful style MVC framework，use as mirco-server and integrate with spring-boot seamlessly. It also can annotate the implementation (response json body,
   requestbody , requestparameter, pathvalue parameter auto-inject), interceptor, restful-controller, listener and exceptionHandler function
 
 ## advantages
@@ -9,12 +9,12 @@
 * support HTTPS
 * support use @NettyRestController as controller
 * integrate with spring-boot seamlessly
-* netty have a advantage in profermance
+* netty have a advantage in performance
 * reduce web container and jar dependency
 * similar with springmvc，easy to learn
 * support path value configure use annotation
 * support parameter annotation and parameter auto-inject
-* support epoll and io_uring in linux os
+* support epoll and io_uring in linux OS
 
 # quick start
 
@@ -26,20 +26,54 @@
 
 ## how to get code and build
 ```
-git clone git@github.com:tigershi/netty-http-server.git
-cd netty-http-server
-gradlew build
+git clone git@github.com:tigershi/spring-boot-netty-http-web.git
+cd spring-boot-netty-http-web
+gradlew clean build
 ```
 
 ## The netty-http-server structure
  
-* netty-mvc-core:  netty http sever and mvc core code
-* netty-mvc-springboot: springboot integration code
-* netty-mvc-sample: netty-http-server Sample code project(include: how to use response json body,
+* netty-mvc-web:  netty http sever and mvc core code
+
+* netty-web-server-sample: netty-mvc-web Sample code project(include: how to use response json body,
   requestbody , requestparameter, pathvalue, interceptor, restful-controller, listener and exceptionHandler)
 
+## add dependency to project
+maven
+add repo
+```
+<repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+</repositories>
+```
+add dependency
+```
+   <dependency>
+	    <groupId>com.github.tigershi.spring-boot-netty-http-web</groupId>
+	    <artifactId>netty-mvc-web</artifactId>
+	    <version>v2.0.0</version>
+	</dependency>
+```
+gradle
+add repo
+```
+dependencyResolutionManagement {
+		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+		repositories {
+			mavenCentral()
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+add dependency
+```
+implementation 'com.github.tigershi.spring-boot-netty-http-web:netty-mvc-web:v2.0.0'
+```
 
-## netty-http-server restfulcontroller
+## netty-http-server restful controller
 ### base on java class' annotation
 ```
 @NettyRestController
@@ -243,16 +277,16 @@ StringBuilder sb = new StringBuilder();
 
 
 
-##run netty-mvc-sample 
+##run netty-web-server-sample
 
-  the class netty-mvc-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java 
-is the netty-mvc-sample project's entrance
+  the class netty-web-server-sample\src\main\java\io\netty\springboot\sample\TestAppBoot.java 
+is the netty-web-server-sample project's entrance
 
 
 The browser address：
 > https://localhost:8099
 
- The detail look on netty-mvc-sample project
+ The detail look on netty-web-server-sample project
 
  It's my pleasure it if you can provider issue
 
